@@ -1,0 +1,15 @@
+- name: Verify deployed application
+  hosts: web
+  gather_facts: false
+
+  tasks:
+    - name: Check app responds over HTTP
+      uri:
+        url: "http://{{ ansible_host }}"
+        method: GET
+        status_code: 200
+      register: app_check
+
+    - name: Show response status
+      debug:
+        var: app_check.status
