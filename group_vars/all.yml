@@ -1,0 +1,4 @@
+docker_image_name: evancraig11/runcalc-pro
+docker_image_tag: latest
+container_name: runcalc-pro
+app_port: 80

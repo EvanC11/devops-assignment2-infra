@@ -1,0 +1,29 @@
+- name: Deploy RunCalc Pro container
+  hosts: web
+  become: true
+
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Remove existing container
+      shell: docker rm -f runcalc-pro || true
+
+    - name: Pull Docker image
+      shell: docker pull evancraig11/runcalc-pro:{{ docker_image_tag }}
+
+    - name: Run container
+      shell: docker run -d -p 80:80 --name runcalc-pro evancraig11/runcalc-pro:{{ docker_image_tag }}
